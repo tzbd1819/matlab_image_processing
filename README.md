@@ -78,6 +78,103 @@ subplot(121);imshow(img_jia_3);title('laplacian算子边缘相加');
 subplot(122);imshow(img_jian_3);title('laplacian算子边缘相减');
 ```
 
+## 4 基于形态学的图像分割
+### 击中或击不中变换
+```
+img=imread('cameraman.jpg');%读取原始图像
+[a,b]=imread('cameraman.jpg');%读取原始图像转换为二值图像
+img_double=im2bw(a,b,0.5);
+se_1= [0 1 0
+      1 1 1
+      0 1 0]; 
+se_2= [0  1  1 0 0
+       0  1  1 0 0
+       0  1  1 0 0
+       0  1  1 0 0
+       0  1  1 0 0];
+
+img_1=bwhitmiss(img_double,se_1);%se_1击中/击不中变换
+img_2=bwhitmiss(img_double,se_2);%se_2击中/击不中变换
+subplot(221);imshow(img);title('原始图像');
+subplot(222);imshow(img_double);title('二值图像');
+subplot(223);imshow(img_1);title('se_1击中/击不中变换');
+subplot(224);imshow(img_2);title('se_2击中/击不中变换');
+```
+
+### 简单二值图像分别进行膨胀与腐蚀
+```
+img=imread('outline.tif');%读取原始图像
+se_1= strel('square',3);
+se_2= [0 1 0
+      1 1 1
+      0 1 0]; 
+se_3= [0  1  1 0 0
+       0  1  1 0 0
+       0  1  1 0 0
+       0  1  1 0 0
+       0  1  1 0 0];
+%如果图像为彩色图像可先转换为灰度图像img_r=rgb2gray(img);%转换为灰度图像
+img_1=imdilate(img,se_1);%膨胀处理
+img_2=imerode(img,se_1);%腐蚀处理
+subplot(331);imshow(img);title('原始图像');
+subplot(332);imshow(img_1);title('se_1膨胀处理图像');
+subplot(333);imshow(img_2);title('se_1腐蚀处理图像');
+img_3=imdilate(img,se_2);%膨胀处理
+img_4=imerode(img,se_2);%腐蚀处理
+subplot(334);imshow(img);title('原始图像');
+subplot(335);imshow(img_3);title('se_2膨胀处理图像');
+subplot(336);imshow(img_4);title('se_2腐蚀处理图像');
+img_5=imdilate(img,se_3);%se_3膨胀处理
+img_6=imerode(img,se_3);%se_3腐蚀处理
+subplot(337);imshow(img);title('原始图像');
+subplot(338);imshow(img_5);title('se_3膨胀处理图像');
+subplot(339);imshow(img_6);title('se_3腐蚀处理图像');
+```
+
+### 开、闭运算
+```
+img=imread('cameraman.jpg');%读取原始图像
+se_1=strel('square',3);
+se_2=strel('disk',5);
+subplot(231);imshow(img);title('原始图像');
+img_w=im2bw(img,graythresh(img));%二值化处理
+subplot(232);imshow(img_w);title('二值处理的图像');
+img_1=imopen(img_w,se_1);%开运算
+subplot(233);imshow(img_1);title('se_1开运算');
+img_2=imclose(img_w,se_1);%闭运算
+subplot(234);imshow(img_2);title('se_1闭运算');
+img_3=imopen(img_w,se_2);%开运算
+subplot(235);imshow(img_1);title('se_2开运算');
+img_4=imclose(img_w,se_2);%闭运算
+subplot(236);imshow(img_2);title('se_2闭运算');
+```
+
+### 去噪与填充
+```
+img=imread('noisy_rectangle.tif');%原始图像
+img_1=im2bw(img);%二值化
+img_2=imfill(img_1,'holes');%填充图像
+img_3=bwareaopen(img_2,5000);%从图像中移除小目标
+subplot(221);imshow(img);title('原始图像');
+subplot(222);imshow(img_1);title('二值化图像');
+subplot(223);imshow(img_2);title('填充图像');
+subplot(224);imshow(img_3);title('从图像中移除小目标');
+```
+
+### 细化与骨架抽取
+```
+BW=imread('text.tif');
+level=graythresh(BW);
+img=im2bw(BW,level);
+BW1 = bwmorph(BW,'thin',Inf);
+BW2 = bwmorph(BW,'skel',Inf);
+subplot(221);imshow(BW);title('原始图像');
+subplot(222);imshow(img);title('二值图像');
+subplot(223);imshow(BW1);title('骨架提取');
+subplot(224);imshow(BW2);title('减薄图像');
+```
+
+
 
 
 
