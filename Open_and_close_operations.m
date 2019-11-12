@@ -1,0 +1,14 @@
+img=imread('cameraman.jpg');%读取原始图像
+se_1=strel('square',3);
+se_2=strel('disk',5);
+subplot(231);imshow(img);title('原始图像');
+img_w=im2bw(img,graythresh(img));%二值化处理
+subplot(232);imshow(img_w);title('二值处理的图像');
+img_1=imopen(img_w,se_1);%开运算
+subplot(233);imshow(img_1);title('se_1开运算');
+img_2=imclose(img_w,se_1);%闭运算
+subplot(234);imshow(img_2);title('se_1闭运算');
+img_3=imopen(img_w,se_2);%开运算
+subplot(235);imshow(img_1);title('se_2开运算');
+img_4=imclose(img_w,se_2);%闭运算
+subplot(236);imshow(img_2);title('se_2闭运算');
