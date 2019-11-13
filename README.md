@@ -21,7 +21,7 @@
 ### 4 二阶算子对高频纹理信息敏感，但是无法获得边缘的梯度信息，适合于仅需要边缘位置信息的应用
 
 ### Sobel算子，Roberts算子，Laplace算子和Canny算子运算提取边缘
-```
+```matlab
 img=imread('test.bmp');% 提取图像 
 figure;imshow(img);
 img_0=rgb2gray(img);%  彩色图像灰度化
@@ -37,7 +37,7 @@ subplot(224);imshow(img_4);title('用canny算子进行边缘检测');
 ```
 
 ### sobel算子
-```
+```matlab
 img=imread('test.bmp');
 img_1=fspecial('sobel');
 img_d=im2double(img);%将f转换为归一化的double类图像
@@ -51,7 +51,7 @@ subplot(122);imshow(img_jian_1);title('sobel算子边缘相减');
 ```
 
 ### prewitt算子
-```
+```matlab
 img=imread('test.bmp');
 img_2=fspecial('prewitt' );
 img_d=im2double(img);%将f转换为归一化的double类图像
@@ -65,7 +65,7 @@ subplot(122);imshow(img_jian_2);title('prewitt算子边缘相减');
 ```
 
 ### laplacian算子
-```
+```matlab
 img=imread('test.bmp');
 img_3=fspecial('laplacian',0);
 img_d=im2double(img);%将f转换为归一化的double类图像
@@ -80,7 +80,7 @@ subplot(122);imshow(img_jian_3);title('laplacian算子边缘相减');
 
 ## 4 基于形态学的图像分割
 ### 击中或击不中变换
-```
+```matlab
 img=imread('cameraman.jpg');%读取原始图像
 [a,b]=imread('cameraman.jpg');%读取原始图像转换为二值图像
 img_double=im2bw(a,b,0.5);
@@ -102,7 +102,7 @@ subplot(224);imshow(img_2);title('se_2击中/击不中变换');
 ```
 
 ### 简单二值图像分别进行膨胀与腐蚀
-```
+```matlab
 img=imread('outline.tif');%读取原始图像
 se_1= strel('square',3);
 se_2= [0 1 0
@@ -132,7 +132,7 @@ subplot(339);imshow(img_6);title('se_3腐蚀处理图像');
 ```
 
 ### 开、闭运算
-```
+```matlab
 img=imread('cameraman.jpg');%读取原始图像
 se_1=strel('square',3);
 se_2=strel('disk',5);
@@ -150,7 +150,7 @@ subplot(236);imshow(img_2);title('se_2闭运算');
 ```
 
 ### 去噪与填充
-```
+```matlab
 img=imread('noisy_rectangle.tif');%原始图像
 img_1=im2bw(img);%二值化
 img_2=imfill(img_1,'holes');%填充图像
@@ -162,7 +162,7 @@ subplot(224);imshow(img_3);title('从图像中移除小目标');
 ```
 
 ### 细化与骨架抽取
-```
+```matlab
 BW=imread('text.tif');
 level=graythresh(BW);
 img=im2bw(BW,level);
